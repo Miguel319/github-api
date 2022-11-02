@@ -1,34 +1,32 @@
-import { component$, useStylesScoped$ } from '@builder.io/qwik';
-import { QwikLogo } from '../icons/qwik';
-import styles from './header.css?inline';
+import { component$, Resource, useResource$ } from "@builder.io/qwik";
+import { useLocation } from "@builder.io/qwik-city";
+import { GitHubRequest } from "~/core/api/requests";
+import { GitHubUser } from "~/core/interfaces/models";
+import { HeaderData } from "./header-data";
 
-export default component$(() => {
-  useStylesScoped$(styles);
+export const Header = component$(() => {
+  const userData = useResource$<GitHubUser>(({ cleanup }) => {
+    const controller = new AbortController();
+    cleanup(() => controller.abort());
+
+    return GitHubRequest.getUserInfo("Miguel319", controller.signal);
+  });
+
+  const { pathname } = useLocation();
 
   return (
-    <header>
-      <div class="logo">
-        <a href="https://qwik.builder.io/" target="_blank">
-          <QwikLogo />
-        </a>
-      </div>
-      <ul>
-        <li>
-          <a href="https://qwik.builder.io/docs/components/overview/" target="_blank">
-            Docs
-          </a>
-        </li>
-        <li>
-          <a href="https://qwik.builder.io/examples/introduction/hello-world/" target="_blank">
-            Examples
-          </a>
-        </li>
-        <li>
-          <a href="https://qwik.builder.io/tutorial/welcome/overview/" target="_blank">
-            Tutorials
-          </a>
-        </li>
-      </ul>
-    </header>
+    <>
+      {pathname !== "/" && (
+        <div class="bg-gray-800 pt-8 pb-16 relative z-10">
+          <div class="container px-6 mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between">
+            <Resource
+              value={userData}
+              onPending={() => <HeaderData />}
+              onResolved={(data) => <HeaderData userData={data} />}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 });
