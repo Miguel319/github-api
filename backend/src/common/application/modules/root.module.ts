@@ -1,3 +1,4 @@
+import { GitHubModule } from "@/github/application/modules";
 import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { ThrottlerModule, ThrottlerGuard } from "@nestjs/throttler";
@@ -17,6 +18,7 @@ const providers = [
       ttl: 60,
       limit: 360,
     }),
+    GitHubModule,
   ],
   providers,
 })
