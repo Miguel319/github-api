@@ -1,4 +1,4 @@
-export const ILoggerServiceName = 'ILoggerService';
+export const ILoggerServiceName = "ILoggerService";
 
 export interface ILoggerService {
   debug(context: string, message: string): void;
