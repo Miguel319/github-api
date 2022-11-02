@@ -45,7 +45,11 @@ export default component$(() => {
                       </td>
                       <td class="whitespace-nowrap px-4 py-2">
                         <strong class="rounded bg-red-100 px-3 py-1.5 text-xs font-medium ">
-                          <span class={`${v.protected ? "text-red-700" : ""}`}>
+                          <span
+                            class={`${
+                              v.protected ? "text-green-700" : "text-red-700"
+                            }`}
+                          >
                             {v.protected ? "Yes" : "No"}
                           </span>
                         </strong>
