@@ -31,7 +31,11 @@ export class GitHubCommitDto {
     };
     this.createdAt = new Date(commit?.commit?.author?.date);
     this.nodeId = commit?.node_id;
-    this.message = commit?.commit?.message;
+
+    this.message = commit?.commit?.message?.replace?.(
+      "Co-authored-by: Miguel Jiménez <migueljimenez@Miguel319.local>",
+      "",
+    );
   }
 
   public static create(commit: IGitHubCommit) {

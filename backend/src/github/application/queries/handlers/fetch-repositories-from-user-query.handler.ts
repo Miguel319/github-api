@@ -47,6 +47,6 @@ export class FetchRepositoriesQueryHandler
       ),
     );
 
-    return data.reverse();
+    return data.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 }

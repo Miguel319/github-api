@@ -31,7 +31,7 @@ export class FetchCommitsFromRepositoryQueryHandler
     repository,
     limit,
   }: FetchCommitsFromRepositoryQuery): Promise<GitHubCommitDto[]> {
-    const data = await firstValueFrom(
+    return await firstValueFrom(
       this._httpService
         .get(`/repos/${user}/${repository}/commits?per_page=100`)
         .pipe(
@@ -49,7 +49,5 @@ export class FetchCommitsFromRepositoryQueryHandler
           }),
         ),
     );
-
-    return data.reverse();
   }
 }
