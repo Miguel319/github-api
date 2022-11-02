@@ -32,7 +32,7 @@ export class FetchBranchesFromRepositoryQueryHandler
     i18n,
     limit,
   }: FetchBranchesFromRepositoryQuery): Promise<GitHubBranchDto[]> {
-    const data = await firstValueFrom(
+    return await firstValueFrom(
       this._httpService
         .get(`/repos/${user}/${repository}/branches?per_page=100`)
         .pipe(
@@ -54,7 +54,5 @@ export class FetchBranchesFromRepositoryQueryHandler
           }),
         ),
     );
-
-    return data.reverse();
   }
 }
