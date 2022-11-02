@@ -33,7 +33,7 @@ export class GitHubRepositoryDto {
   readonly visibility: string;
 
   @ApiProperty()
-  readonly createdAt: string;
+  readonly createdAt: Date;
 
   private constructor(githubRepo: IGitHubRepository) {
     this.id = githubRepo.id;
@@ -47,7 +47,7 @@ export class GitHubRepositoryDto {
     this.primaryLanguage = githubRepo.language;
     this.url = githubRepo.url;
     this.visibility = githubRepo.visibility;
-    this.createdAt = githubRepo.created_at;
+    this.createdAt = new Date(githubRepo.created_at);
   }
 
   public static create(githubRepo: IGitHubRepository): GitHubRepositoryDto {

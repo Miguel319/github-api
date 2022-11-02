@@ -10,9 +10,10 @@ import bodyParser from "body-parser";
 import compression from "@fastify/compress";
 import {
   FallbackExpectionFilter,
+  HttpExceptionFilter,
   ValidationFilter,
 } from "@/common/infrastructure/filters";
-import { Inject, ValidationPipe } from "@nestjs/common";
+import { Inject, Logger, ValidationPipe } from "@nestjs/common";
 import { LoggingInterceptor } from "@/common/infrastructure/interceptors";
 import { i18nValidationErrorFactory } from "nestjs-i18n";
 import { RootModule } from "../modules";
@@ -105,6 +106,7 @@ export class AppSetup {
   private setupGlobalFilters(app: NestFastifyApplication): void {
     app.useGlobalFilters(
       new FallbackExpectionFilter(this._logger),
+      new HttpExceptionFilter(new Logger()),
       new ValidationFilter(),
     );
   }
