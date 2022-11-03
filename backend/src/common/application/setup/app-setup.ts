@@ -1,5 +1,4 @@
 import { ILoggerService, ILoggerServiceName } from "@/common/domain/logger";
-import { ConfigService } from "@nestjs/config";
 import { LoggerService } from "@/common/infrastructure/logger";
 import {
   FastifyAdapter,
@@ -33,9 +32,6 @@ export class AppSetup {
         new FastifyAdapter(),
       );
 
-      const configService: ConfigService<unknown, boolean> =
-        app.get(ConfigService);
-
       this.setBasicConfig(app);
       this.setupGlobalPipes(app);
       this.setupGlobalFilters(app);
@@ -43,9 +39,9 @@ export class AppSetup {
       this.setupGlobalInterceptors(app);
       this.buildAPIDocumentation(app);
 
-      const port: number = Number(configService.get("API_PORT")) || 3000;
+      const port: number = Number(process.env["PORT"]) || 5000;
 
-      await app.listen(port, () => this.log(port));
+      await app.listen(port, "0.0.0.0", () => this.log(port));
     } catch (error) {
       this._logger.error(
         "Bootstrap",
@@ -112,7 +108,7 @@ export class AppSetup {
   }
 
   private log(port: number): void {
-    this._logger.log("Bootstrap", `  ✅  Server started on port: ${port}.`);
+    this._logger.log("Bootstrap", ` ✅  Server started on port: ${port}.`);
   }
 
   private setupGlobalInterceptors(app: NestFastifyApplication): void {
